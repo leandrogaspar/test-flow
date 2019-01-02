@@ -9,4 +9,7 @@ async function check(context, input, config) {
     return { nextNode: config.nextNodes.default };
 }
 
-module.exports = check;
+module.exports = {
+    name: "check",
+    node: check
+};

@@ -4,22 +4,22 @@ import Flow from "./core/flow";
 
 const flowConfig: FlowConfig = {
     startNode: {
-        name: 'C:/gitwork/test-flow/functions/open.js',
+        name: 'open',
         config: {},
         nextNodes: {
-            default: 'C:/gitwork/test-flow/functions/typeWebdriver.js'
+            default: 'type'
         }
     },
     nodeMap: {
-        'C:/gitwork/test-flow/functions/typeWebdriver.js': {
-            name: 'C:/gitwork/test-flow/functions/typeWebdriver.js',
+        'type': {
+            name: 'type',
             config: {},
             nextNodes: {
-                default: 'C:/gitwork/test-flow/functions/checkTitle.js'
+                default: 'check'
             }
         },
-        'C:/gitwork/test-flow/functions/checkTitle.js': {
-            name: 'C:/gitwork/test-flow/functions/checkTitle.js',
+        'check': {
+            name: 'check',
             config: {},
             nextNodes: {
                 default: undefined
@@ -29,7 +29,7 @@ const flowConfig: FlowConfig = {
 }
 
 const context = new Context();
-context.loadFunctions('C:/gitwork/test-flow/functions');
+context.loadNodes('C:/gitwork/test-flow/functions');
 
 context.buildDriver()
     .then(ok => {
@@ -40,7 +40,7 @@ context.buildDriver()
             .then(ok => console.log(`Worked? ${ok}`))
             .catch(e => console.log(`Run failed ${e}`));
 
-        
+
     })
     .catch(e => console.log(`Could not build selenium: ${e}`));
 

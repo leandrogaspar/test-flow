@@ -9,4 +9,7 @@ async function type(context, input, config) {
     return { nextNode: config.nextNodes.default };
 }
 
-module.exports = type;
+module.exports = {
+    name: "type",
+    node: type
+};

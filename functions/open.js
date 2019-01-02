@@ -7,4 +7,7 @@ async function open(context, input, config) {
     return { nextNode: config.nextNodes.default };
 }
 
-module.exports = open;
+module.exports = {
+    name: "open",
+    node: open
+};

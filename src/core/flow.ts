@@ -9,7 +9,7 @@ export default class Flow {
 
     constructor(context: Context, config: FlowConfig) {
         this.context = context;
-        this.startNode =  config.startNode;
+        this.startNode = config.startNode;
         this.nodeMap = config.nodeMap;
     }
 
@@ -24,7 +24,7 @@ export default class Flow {
             }
 
             console.log(`Running node ${currentNode.name}`);
-            const fn = this.context.getFunction(currentNode.name);
+            const fn = this.context.getNode(currentNode.name);
 
             let nodeOutput: NodeOutput;
             try {
