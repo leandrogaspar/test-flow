@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node index.js",
+    "start": "node dist/temp.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Leandro Gaspar Scanavini",
@@ -15,6 +15,7 @@
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "devDependencies": {
+    "@types/node": "^10.12.18",
     "typescript": "^3.2.2"
   }
 }
