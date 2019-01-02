@@ -1,20 +1,22 @@
 import * as fs from "fs";
 
-//TODO maybe move all this chrome stuff to a node?
-import { Builder } from "selenium-webdriver";
-import * as chrome from "selenium-webdriver/chrome";
-import * as chromedriver from "chromedriver";
-
-chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
+import defaultNodes from "../default-nodes";
 
 export default class Context {
 
     private nodeMap: Map<string, Function> = new Map();
+    private map: Map<string, any> = new Map();
 
-    // Temp place for the driver
-    public driver;
-    public async buildDriver() {
-        this.driver = await new Builder().forBrowser('chrome').build();
+    public get(key: string) {
+        return this.map.get(key);
+    }
+
+    public set(key: string, value: any) {
+        return this.map.set(key, value);
+    }
+
+    public delete(key: string) {
+        return this.map.delete(key);
     }
 
     public loadNodes(path: string) {
@@ -24,8 +26,15 @@ export default class Context {
             const fnPath = path + '/' + file;
             console.log(`Requiring function ${fnPath}`);
             const nodeModule = require(fnPath);
+
+            if (defaultNodes.get(nodeModule.name)) {
+                throw new Error(`Node name ${nodeModule.name} is reserved and cannot be used for custom nodes.`);
+            }
+
             this.nodeMap.set(nodeModule.name, nodeModule.node);
         }
+
+        this.nodeMap = new Map([...this.nodeMap, ...defaultNodes]);
     }
 
     public getNode(name: string): Function {

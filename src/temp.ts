@@ -4,13 +4,22 @@ import Flow from "./core/flow";
 
 const flowConfig: FlowConfig = {
     startNode: {
-        name: 'open',
-        config: {},
+        name: 'createDriver',
+        config: {
+            browser: 'chrome'
+        },
         nextNodes: {
-            default: 'type'
+            default: 'open'
         }
     },
     nodeMap: {
+        'open': {
+            name: 'open',
+            config: {},
+            nextNodes: {
+                default: 'type'
+            }
+        },
         'type': {
             name: 'type',
             config: {},
@@ -31,16 +40,9 @@ const flowConfig: FlowConfig = {
 const context = new Context();
 context.loadNodes('C:/gitwork/test-flow/functions');
 
-context.buildDriver()
-    .then(ok => {
-        console.log('Selenium driver ok')
-        const flow = new Flow(context, flowConfig);
+const flow = new Flow(context, flowConfig);
 
-        flow.run()
-            .then(ok => console.log(`Worked? ${ok}`))
-            .catch(e => console.log(`Run failed ${e}`));
-
-
-    })
-    .catch(e => console.log(`Could not build selenium: ${e}`));
+flow.run()
+    .then(ok => console.log(`Worked? ${ok}`))
+    .catch(e => console.log(`Run failed ${e}`));
 

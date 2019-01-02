@@ -1,10 +1,10 @@
-import { FlowNode, NodeOutput, FlowConfig } from "./model";
+import { NodeConfig, NodeOutput, FlowConfig } from "./model";
 import Context from "./context";
 
 export default class Flow {
 
     private context: Context;
-    private startNode: FlowNode;
+    private startNode: NodeConfig;
     private nodeMap: Object;
 
     constructor(context: Context, config: FlowConfig) {
@@ -28,7 +28,7 @@ export default class Flow {
 
             let nodeOutput: NodeOutput;
             try {
-                nodeOutput = await fn(this.context, input, currentNode);
+                nodeOutput = await fn(this.context, currentNode, input);
             } catch (e) {
                 return Promise.reject(`Node ${currentNode.name} execution error: ${e}`);
             }

@@ -1,11 +1,13 @@
 const { By, Key } = require('selenium-webdriver');
 
-async function type(context, input, config) {
+async function type(context, config, input) {
     console.log(`context ${JSON.stringify(context)}`);
     console.log(`input ${JSON.stringify(input)}`);
     console.log(`config ${JSON.stringify(config)}`);
 
-    await context.driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+    const driver = context.get('driver');
+
+    await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
     return { nextNode: config.nextNodes.default };
 }
 

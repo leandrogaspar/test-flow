@@ -1,7 +1,7 @@
-export interface FlowNode {
+export interface NodeConfig {
     name: string;
-    config: Object;
-    nextNodes: Object;
+    config: Object | any;
+    nextNodes: Object | any;
 }
 
 export interface NodeOutput {
@@ -10,6 +10,6 @@ export interface NodeOutput {
 }
 
 export interface FlowConfig {
-    startNode: FlowNode;
+    startNode: NodeConfig;
     nodeMap: Object;
 }
