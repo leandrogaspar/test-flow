@@ -20,7 +20,7 @@ export default class Flow {
 
         while (running) {
             if (!currentNode) {
-                return Promise.reject('Undefined node before flow end was reached');
+                throw Error('Undefined node before flow end was reached');
             }
 
             console.log(`Running node ${currentNode.name}`);
@@ -30,7 +30,7 @@ export default class Flow {
             try {
                 nodeOutput = await fn(this.context, currentNode, input);
             } catch (e) {
-                return Promise.reject(`Node ${currentNode.name} execution error: ${e}`);
+                throw Error(`Node ${currentNode.name} execution error: ${e}`);
             }
 
             console.log(`Node ${currentNode.name} done.`);
@@ -44,5 +44,6 @@ export default class Flow {
         }
 
         console.log('Flow ended');
+        await this.context.runDefer();
     }
 }

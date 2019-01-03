@@ -6,6 +6,7 @@ export default class Context {
 
     private nodeMap: Map<string, Function> = new Map();
     private map: Map<string, any> = new Map();
+    private deferStack = [];
 
     public get(key: string) {
         return this.map.get(key);
@@ -17,6 +18,24 @@ export default class Context {
 
     public delete(key: string) {
         return this.map.delete(key);
+    }
+
+    /**
+     * Defer a function to be executed after the flow is done.
+     * Functions are called LIFO
+     * @param fn Function to be executed on the flow end.
+     */
+    public defer(fn: Function) {
+        this.deferStack.push(fn);
+    }
+
+    /**
+     * From last to first, call the defered functions
+     */
+    public async runDefer() {
+        while (this.deferStack.length !== 0) {
+            await this.deferStack.pop()();
+        }
     }
 
     public loadNodes(path: string) {

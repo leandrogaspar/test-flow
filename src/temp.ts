@@ -6,7 +6,8 @@ const flowConfig: FlowConfig = {
     startNode: {
         name: 'createDriver',
         config: {
-            browser: 'chrome'
+            browser: 'chrome',
+            driverName: 'browser1'
         },
         nextNodes: {
             default: 'open'
@@ -15,21 +16,27 @@ const flowConfig: FlowConfig = {
     nodeMap: {
         'open': {
             name: 'open',
-            config: {},
+            config: {
+                driver: 'browser1'
+            },
             nextNodes: {
                 default: 'type'
             }
         },
         'type': {
             name: 'type',
-            config: {},
+            config: {
+                driver: 'browser1'
+            },
             nextNodes: {
                 default: 'check'
             }
         },
         'check': {
             name: 'check',
-            config: {},
+            config: {
+                driver: 'browser1'
+            },
             nextNodes: {
                 default: undefined
             }
@@ -43,6 +50,6 @@ context.loadNodes('C:/gitwork/test-flow/functions');
 const flow = new Flow(context, flowConfig);
 
 flow.run()
-    .then(ok => console.log(`Worked? ${ok}`))
+    .then(() => console.log('done'))
     .catch(e => console.log(`Run failed ${e}`));
 
