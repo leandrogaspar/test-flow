@@ -14,7 +14,8 @@
     "chromedriver": "^2.45.0",
     "express": "^4.16.4",
     "request-promise": "^4.2.2",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "ws": "^6.1.2"
   },
   "devDependencies": {
     "@types/node": "^10.12.18",
