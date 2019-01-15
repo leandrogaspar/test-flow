@@ -1,30 +1,28 @@
-import { NodeConfig, NodeOutput, FlowConfig } from "./model";
-import Context from "./context";
+import { NodeOutput, FlowConfig } from "../common/model";
+import { INodeMap, IContext } from "./interfaces";
 
 export default class Flow {
 
-    private context: Context;
-    private startNode: NodeConfig;
-    private nodeMap: Object;
+    private nodeMap: INodeMap;
+    private context: IContext;
 
-    constructor(context: Context, config: FlowConfig) {
+    constructor(nodeMap: INodeMap, context: IContext) {
         this.context = context;
-        this.startNode = config.startNode;
-        this.nodeMap = config.nodeMap;
+        this.nodeMap = nodeMap;
     }
 
-    async run() {
+    async run(flow: FlowConfig) {
         let running = true;
-        let currentNode = this.startNode;
-        let input;
+        let currentNode = flow.startNode;
+        let input: object;
 
         while (running) {
             if (!currentNode) {
-                throw Error('Undefined node before flow end was reached');
+                throw Error('Reached undefined node before flow end was reached');
             }
 
             console.log(`Running node ${currentNode.name}`);
-            const fn = this.context.getNode(currentNode.name);
+            const fn = this.nodeMap.getNode(currentNode.name);
 
             let nodeOutput: NodeOutput;
             try {
@@ -36,7 +34,7 @@ export default class Flow {
             console.log(`Node ${currentNode.name} done.`);
 
             if (nodeOutput.nextNode) {
-                currentNode = this.nodeMap[nodeOutput.nextNode];
+                currentNode = flow.nodes[nodeOutput.nextNode];
                 input = nodeOutput.data;
             } else {
                 running = false;

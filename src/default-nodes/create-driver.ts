@@ -2,14 +2,14 @@ import { Builder } from "selenium-webdriver";
 import * as chrome from "selenium-webdriver/chrome";
 import * as chromedriver from "chromedriver";
 
-import Context from "../core/context";
-import { NodeConfig } from "../core/model";
+import { CreateDriverConfig, Browsers } from "../common/model";
+import { IContext } from "../core/interfaces";
 
-export async function createDriver(context: Context, nodeConfig: NodeConfig, input: Object) {
+export async function createDriver(context: IContext, nodeConfig: CreateDriverConfig) {
 
     console.log(`Creating selenium driver ${nodeConfig.config.driverName} browser ${nodeConfig.config.browser}`);
 
-    if (nodeConfig.config.browser === 'chrome') {
+    if (nodeConfig.config.browser === Browsers.CHROME) {
         chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
         const driver = await new Builder().forBrowser('chrome').build();
         context.set(nodeConfig.config.driverName, driver);

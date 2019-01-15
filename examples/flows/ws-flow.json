@@ -1,0 +1,31 @@
+{
+    "startNode": {
+        "name": "createWs",
+        "config": {
+            "url": "ws://localhost:3001",
+            "connectTimeout": 10000,
+            "clientName": "client"
+        },
+        "nextNodes": {
+            "default": "sendWsRequest"
+        }
+    },
+    "nodes": {
+        "sendWsRequest": {
+            "name": "sendWsRequest",
+            "config": {
+                "clientName": "client"
+            },
+            "nextNodes": {
+                "default": "waitTestEvent"
+            }
+        },
+        "waitTestEvent": {
+            "name": "waitTestEvent",
+            "config": {
+                "clientName": "client"
+            },
+            "nextNodes": {}
+        }
+    }
+}

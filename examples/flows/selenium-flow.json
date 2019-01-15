@@ -1,0 +1,39 @@
+{
+    "startNode": {
+        "name": "createDriver",
+        "config": {
+            "browser": "chrome",
+            "driverName": "browser1"
+        },
+        "nextNodes": {
+            "default": "open"
+        }
+    },
+    "nodes": {
+        "open": {
+            "name": "open",
+            "config": {
+                "driver": "browser1"
+            },
+            "nextNodes": {
+                "default": "type"
+            }
+        },
+        "type": {
+            "name": "type",
+            "config": {
+                "driver": "browser1"
+            },
+            "nextNodes": {
+                "default": "check"
+            }
+        },
+        "check": {
+            "name": "check",
+            "config": {
+                "driver": "browser1"
+            },
+            "nextNodes": {}
+        }
+    }
+}

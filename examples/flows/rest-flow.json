@@ -1,0 +1,8 @@
+{
+    "startNode": {
+        "name": "requestExample",
+        "config": {},
+        "nextNodes": {}
+    },
+    "nodes": {}
+}
