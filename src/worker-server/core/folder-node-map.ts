@@ -7,13 +7,18 @@ import { INodeMap } from "./interfaces";
  * This implementation loads all modules from a path
  */
 export default class FolderNodeMap implements INodeMap {
+
     private nodeMap: Map<string, Function> = new Map();
+
+    constructor(NODES_PATH: string) {
+        this.loadFolder(NODES_PATH);
+    }
 
     public getNode(name: string): Function {
         return this.nodeMap.get(name);
     }
 
-    public loadFolder(path: string): void {
+    private loadFolder(path: string): void {
         console.log(`Loading nodes from path ${path}`);
 
         for (let file of fs.readdirSync(path)) {

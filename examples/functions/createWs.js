@@ -22,6 +22,11 @@ class Client {
                 resolve();
             });
 
+            this.ws.on('error', (error) => {
+                clearTimeout(timeout);
+                reject(error);
+            });
+
             this.ws.on('message', (message) => {
                 console.log('Received message=' + message);
                 const messageObj = JSON.parse(message);

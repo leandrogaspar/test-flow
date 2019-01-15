@@ -2,8 +2,8 @@ import { Builder } from "selenium-webdriver";
 import * as chrome from "selenium-webdriver/chrome";
 import * as chromedriver from "chromedriver";
 
-import { CreateDriverConfig, Browsers } from "../common/model";
 import { IContext } from "../core/interfaces";
+import { Browsers, CreateDriverConfig } from "../../common";
 
 export async function createDriver(context: IContext, nodeConfig: CreateDriverConfig) {
 

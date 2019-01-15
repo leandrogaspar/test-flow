@@ -1,4 +1,4 @@
-import { NodeOutput, FlowConfig } from "../common/model";
+import { NodeOutput, FlowConfig } from "../../common";
 import { INodeMap, IContext } from "./interfaces";
 
 export default class Flow {
@@ -21,11 +21,11 @@ export default class Flow {
                 throw Error('Reached undefined node before flow end was reached');
             }
 
-            console.log(`Running node ${currentNode.name}`);
             const fn = this.nodeMap.getNode(currentNode.name);
 
             let nodeOutput: NodeOutput;
             try {
+                console.log(`Running node ${currentNode.name}`);
                 nodeOutput = await fn(this.context, currentNode, input);
             } catch (e) {
                 throw Error(`Node ${currentNode.name} execution error: ${e}`);
