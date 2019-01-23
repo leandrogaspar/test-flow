@@ -5,7 +5,7 @@ import { NodeMap } from './node-map';
 describe('NodeMap', function () {
 
     let nodeMap: NodeMap;
-    const FOLDER_PATH = '/tmp-node-map';
+    const FOLDER_PATH = __dirname + '/tmp-node-map';
     const FILE = 'tmp-node.js';
     const FULL_PATH = FOLDER_PATH + '/' + FILE;
     const FILE_CONTENT = `
