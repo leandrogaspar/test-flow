@@ -4,7 +4,7 @@ async function sendWsRequest(context, nodeConfig, input) {
     console.log(`nodeConfig ${JSON.stringify(nodeConfig)}`);
 
 
-    const client = context.get(nodeConfig.config.clientName);
+    const client = context.storage.get(nodeConfig.config.clientName);
     await client.request({ data: 1, data2: 2 });
 
     return { nextNode: nodeConfig.nextNodes.default };

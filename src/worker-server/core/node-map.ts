@@ -1,12 +1,11 @@
 import * as fs from "fs";
 
 import defaultNodes from "../default-nodes";
-import { INodeMap } from "./interfaces";
 
 /**
- * This implementation loads all modules from a path
+ * This implementation loads all modules from a path and the default nodes
  */
-export default class FolderNodeMap implements INodeMap {
+export class NodeMap {
 
     private nodeMap: Map<string, Function> = new Map();
 
@@ -14,16 +13,19 @@ export default class FolderNodeMap implements INodeMap {
         this.loadFolder(NODES_PATH);
     }
 
+    /**
+     * Get a specified node function from it's name
+     * 
+     * @param name The function name
+     * @returns The specified function
+     */
     public getNode(name: string): Function {
         return this.nodeMap.get(name);
     }
 
     private loadFolder(path: string): void {
-        console.log(`Loading nodes from path ${path}`);
-
         for (let file of fs.readdirSync(path)) {
             const fnPath = path + '/' + file;
-            console.log(`Requiring function ${fnPath}`);
             const nodeModule = require(fnPath);
 
             if (defaultNodes.get(nodeModule.name)) {

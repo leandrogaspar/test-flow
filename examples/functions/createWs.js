@@ -117,7 +117,7 @@ async function createWs(context, nodeConfig, input) {
 
     const client = new Client(nodeConfig.config.url, nodeConfig.config.connectTimeout);
     context.defer(async () => { await client.close(); console.log('Client closed'); });
-    context.set(nodeConfig.config.clientName, client);
+    context.storage.set(nodeConfig.config.clientName, client);
 
     await client.connect();
 

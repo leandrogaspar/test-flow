@@ -1,12 +1,13 @@
 import { NodeOutput, FlowConfig } from "../../common";
-import { INodeMap, IContext } from "./interfaces";
+import { Context } from "./context";
+import { NodeMap } from "./node-map";
 
-export default class Flow {
+export class Flow {
 
-    private nodeMap: INodeMap;
-    private context: IContext;
+    private nodeMap: NodeMap;
+    private context: Context;
 
-    constructor(nodeMap: INodeMap, context: IContext) {
+    constructor(nodeMap: NodeMap, context: Context) {
         this.context = context;
         this.nodeMap = nodeMap;
     }
@@ -18,20 +19,17 @@ export default class Flow {
 
         while (running) {
             if (!currentNode) {
-                throw Error('Reached undefined node before flow end was reached');
+                throw Error('Reached undefined node before flow end.');
             }
 
             const fn = this.nodeMap.getNode(currentNode.name);
 
             let nodeOutput: NodeOutput;
             try {
-                console.log(`Running node ${currentNode.name}`);
                 nodeOutput = await fn(this.context, currentNode, input);
             } catch (e) {
                 throw Error(`Node ${currentNode.name} execution error: ${e}`);
             }
-
-            console.log(`Node ${currentNode.name} done.`);
 
             if (nodeOutput.nextNode) {
                 currentNode = flow.nodes[nodeOutput.nextNode];
@@ -40,8 +38,6 @@ export default class Flow {
                 running = false;
             }
         }
-
-        console.log('Flow ended');
         await this.context.runDefer();
     }
 }

@@ -4,7 +4,7 @@ async function waitTestEvent(context, nodeConfig, input) {
     console.log(`nodeConfig ${JSON.stringify(nodeConfig)}`);
 
 
-    const client = context.get(nodeConfig.config.clientName);
+    const client = context.storage.get(nodeConfig.config.clientName);
     const promise = new Promise((resolve, reject) => {
 
         const timeout = setTimeout(() => {

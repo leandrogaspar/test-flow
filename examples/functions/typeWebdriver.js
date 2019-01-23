@@ -5,7 +5,7 @@ async function type(context, nodeConfig, input) {
     console.log(`input ${JSON.stringify(input)}`);
     console.log(`nodeConfig ${JSON.stringify(nodeConfig)}`);
 
-    const driver = context.get(nodeConfig.config.driver);
+    const driver = context.storage.get(nodeConfig.config.driver);
 
     await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
     return { nextNode: nodeConfig.nextNodes.default };

@@ -2,9 +2,9 @@ import * as Koa from 'koa';
 import * as KoaRouter from 'koa-router';
 import { createContainer, InjectionMode, asClass, asValue } from 'awilix';
 
-import FolderNodeMap from './core/folder-node-map';
-import Flow from './core/flow';
-import Context from './core/context';
+import { Context } from './core/context';
+import { NodeMap } from './core/node-map';
+import { Flow } from './core/flow';
 
 // Create the DI container
 const container = createContainer({
@@ -15,7 +15,7 @@ const container = createContainer({
 container.register({
     NODES_PATH: asValue('C:/gitwork/test-flow/examples/functions'),
     context: asClass(Context),
-    nodeMap: asClass(FolderNodeMap).singleton(),
+    nodeMap: asClass(NodeMap).singleton(),
     flow: asClass(Flow)
 });
 
@@ -66,7 +66,7 @@ app.use((ctx, next) => {
 
 app.use(router.routes());
 
-app.listen(3000);
+app.listen(4000);
 
 
-console.log('Worker server listening on port 3000');
+console.log('Worker server listening on port 4000');
