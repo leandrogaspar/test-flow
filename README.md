@@ -22,7 +22,8 @@ Download and install the latest LTS version of [node](https://nodejs.org/en/down
 
 Ws server listening on port 3001!
 Rest server listening on port 3000!
-Worker server listening on port 4000
+Main server listening on port 4000
+Worker server listening on port 4001
 ```
 
 After everything is up and running you can start the examples:

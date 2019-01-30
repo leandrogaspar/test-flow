@@ -9,7 +9,7 @@
     "start-main": "ts-node src/main-server",
     "example-ws": "node examples/ws-server.js",
     "example-rest": "node examples/rest-server.js",
-    "example": "npm-run-all --parallel start-worker example-ws example-rest",
+    "example": "npm-run-all --parallel start-main start-worker example-ws example-rest",
     "test": "mocha -r ts-node/register src/**/*spec.ts"
   },
   "author": "Leandro Gaspar Scanavini",
@@ -19,6 +19,7 @@
     "chromedriver": "^2.45.0",
     "express": "^4.16.4",
     "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "request-promise": "^4.2.2",
     "selenium-webdriver": "^4.0.0-alpha.1",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/koa": "^2.0.48",
+    "@types/koa-bodyparser": "^4.2.1",
     "@types/koa-router": "^7.0.37",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.18",

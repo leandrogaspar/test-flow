@@ -1,10 +1,12 @@
 import * as Koa from 'koa';
 import * as KoaRouter from 'koa-router';
+import * as bodyParser from 'koa-bodyparser';
 import { createContainer, InjectionMode, asClass, asValue } from 'awilix';
 
 import { Context } from './core/context';
 import { NodeMap } from './core/node-map';
 import { Flow } from './core/flow';
+import { FlowConfig } from '../common';
 
 // Create the DI container
 const container = createContainer({
@@ -19,54 +21,28 @@ container.register({
     flow: asClass(Flow)
 });
 
-// temp stuff
-const flows = [
-    require('../../examples/flows/ws-flow.json'),
-    require('../../examples/flows/selenium-flow.json'),
-    require('../../examples/flows/rest-flow.json')
-];
-
 const app = new Koa();
 const router = new KoaRouter();
 
-router.get('/ws', async ctx => {
+router.post('/run', async ctx => {
     const flow = ctx.scope.resolve('flow') as Flow;
     try {
-        await flow.run(flows[0]);
-        ctx.body = 'Ws ok!';
+        const flowConfig: FlowConfig = ctx.request.body;
+        await flow.run(flowConfig);
+        ctx.body = `Flow ok!\nFlow runned: \n${JSON.stringify(flowConfig, undefined, 2)}`;
     } catch (e) {
         ctx.body = 'Error' + e;
     }
 });
 
-router.get('/selenium', async ctx => {
-    const flow = ctx.scope.resolve('flow') as Flow;
-    try {
-        await flow.run(flows[1]);
-        ctx.body = 'Selenium ok!';
-    } catch (e) {
-        ctx.body = 'Error' + e;
-    }
-});
-
-router.get('/rest', async ctx => {
-    const flow = ctx.scope.resolve('flow') as Flow;
-    try {
-        await flow.run(flows[2]);
-        ctx.body = 'Rest ok!';
-    } catch (e) {
-        ctx.body = 'Error' + e;
-    }
-});
-
+// Midlewares
+app.use(bodyParser());
 app.use((ctx, next) => {
     ctx.scope = container.createScope();
     return next();
 });
-
 app.use(router.routes());
 
-app.listen(4000);
+app.listen(4001);
 
-
-console.log('Worker server listening on port 4000');
+console.log('Worker server listening on port 4001');
