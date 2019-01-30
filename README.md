@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/leandrogaspar/test-flow.svg?branch=master)](https://travis-ci.org/leandrogaspar/test-flow)
 [![dependencies Status](https://david-dm.org/leandrogaspar/test-flow/status.svg)](https://david-dm.org/leandrogaspar/test-flow)
-[![devDependencies Status](https://david-dm.org/leandrogaspar/test-flow/dev-status.svg)](https://david-dm.org/leandrogaspar/test-flow?type=dev)
+[![devDependencies Status](https://david-dm.org/leandrogaspar/test-flow/dev-status.svg)](https://david-dm.org/leandrogaspar/test-flow?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/leandrogaspar/test-flow.svg)](https://greenkeeper.io/)
 
 # Test Flow
 > Flow-based test framework
