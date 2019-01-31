@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start-worker": "ts-node src/worker-server",
-    "start-main": "ts-node src/main-server",
+    "start-worker": "node src/worker-server",
+    "start-main": "node src/main-server",
     "example-ws": "node examples/ws-server.js",
     "example-rest": "node examples/rest-server.js",
     "example": "npm-run-all --parallel start-main start-worker example-ws example-rest",
-    "test": "mocha -r ts-node/register src/**/*spec.ts"
+    "test": "mocha"
   },
   "author": "Leandro Gaspar Scanavini",
   "license": "MIT",
@@ -26,16 +25,11 @@
     "ws": "^6.1.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/koa": "^2.0.48",
-    "@types/koa-bodyparser": "^4.2.1",
-    "@types/koa-router": "^7.0.37",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.18",
     "chai": "^4.2.0",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
     "mocha": "^5.2.0",
-    "npm-run-all": "^4.1.5",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.2.2"
+    "npm-run-all": "^4.1.5"
   }
 }
