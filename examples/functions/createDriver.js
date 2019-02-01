@@ -7,7 +7,7 @@ const chromedriver = require('chromedriver');
 // Not sure if it is the best place but will be here for now
 chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 
-module.exports = async function createDriver(context, nodeConfig) {
+async function createDriver(context, nodeConfig) {
   console.log(`Creating selenium driver ${nodeConfig.config.driverName} browser ${nodeConfig.config.browser}`);
 
   if (nodeConfig.config.browser === 'chrome') {
@@ -20,4 +20,9 @@ module.exports = async function createDriver(context, nodeConfig) {
   }
 
   return { nextNode: nodeConfig.nextNodes.default };
+}
+
+module.exports = {
+  name: 'createDriver',
+  node: createDriver,
 };
