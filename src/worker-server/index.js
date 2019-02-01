@@ -5,6 +5,7 @@ const {
 const KoaRouter = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const Koa = require('koa');
+const path = require('path');
 
 const Context = require('./core/context');
 const NodeMap = require('./core/node-map');
@@ -17,7 +18,7 @@ const container = createContainer({
 
 // Register the classes
 container.register({
-  NODES_PATH: asValue('C:/gitwork/test-flow/examples/functions'),
+  NODES_PATH: asValue(path.join(__dirname, '../../', 'examples/functions')),
   context: asClass(Context),
   nodeMap: asClass(NodeMap).singleton(),
   flow: asClass(Flow),
