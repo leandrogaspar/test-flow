@@ -3,9 +3,7 @@ const KoaRouter = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const request = require('request-promise');
 
-const ws = require('../../examples/flows/ws-flow.json');
-const selenium = require('../../examples/flows/selenium-flow.json');
-const rest = require('../../examples/flows/rest-flow.json');
+const { ws, selenium, rest } = require('test-flow-examples');
 
 async function sendFlow(flow) {
   const options = {

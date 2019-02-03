@@ -18,7 +18,7 @@ const container = createContainer({
 
 // Register the classes
 container.register({
-  NODES_PATH: asValue(path.join(__dirname, '../../', 'examples/functions')),
+  NODES_PATH: asValue(path.join(__dirname, '../../', 'node_modules/test-flow-examples/lib/nodes')),
   context: asClass(Context),
   nodeMap: asClass(NodeMap).singleton(),
   flow: asClass(Flow),

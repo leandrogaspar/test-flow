@@ -13,7 +13,6 @@ Download and install the latest LTS version of [node](https://nodejs.org/en/down
 
 ```shell
 >npm install
->npm run build
 ```
 
 ### Running the examples

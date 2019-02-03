@@ -6,8 +6,8 @@
   "scripts": {
     "start-worker": "node src/worker-server",
     "start-main": "node src/main-server",
-    "example-ws": "node examples/ws-server.js",
-    "example-rest": "node examples/rest-server.js",
+    "example-ws": "node node_modules/test-flow-examples/lib/servers/ws.js",
+    "example-rest": "node node_modules/test-flow-examples/lib/servers/rest.js",
     "example": "npm-run-all --parallel start-main start-worker example-ws example-rest",
     "test": "mocha"
   },
@@ -15,14 +15,12 @@
   "license": "MIT",
   "dependencies": {
     "awilix": "^4.1.0",
-    "chromedriver": "^2.45.0",
-    "express": "^4.16.4",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "selenium-webdriver": "^4.0.0-alpha.1",
-    "ws": "^6.1.2"
+    "test-flow-examples": "0.0.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
