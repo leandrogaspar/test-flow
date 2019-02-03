@@ -1,18 +1,27 @@
 const Koa = require('koa');
 const KoaRouter = require('koa-router');
 const bodyParser = require('koa-bodyparser');
-const request = require('request-promise');
+const io = require('socket.io-client');
 
 const { ws, selenium, rest } = require('test-flow-examples');
 
-async function sendFlow(flow) {
-  const options = {
-    method: 'POST',
-    uri: 'http://localhost:4001/run',
-    body: flow,
-    json: true,
-  };
-  return request(options);
+function sendFlow(flow) {
+  return new Promise((resolve, reject) => {
+    const socket = io('http://localhost:4001');
+
+    socket.on('connect', function () {
+      console.log('main connect');
+
+      socket.emit('run', flow, function (status) {
+        resolve(status);
+        socket.close();
+      });
+
+      socket.on('connect_failed', function () {
+        reject('Could not connect to worker');
+      })
+    })
+  });
 }
 
 // temp stuff
