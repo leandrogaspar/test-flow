@@ -2,9 +2,7 @@
 const {
   createContainer, InjectionMode, asClass, asValue,
 } = require('awilix');
-const KoaRouter = require('koa-router');
-const bodyParser = require('koa-bodyparser');
-const Koa = require('koa');
+
 const path = require('path');
 
 const Context = require('./core/context');
@@ -24,29 +22,28 @@ container.register({
   flow: asClass(Flow),
 });
 
-const app = new Koa();
-const router = new KoaRouter();
 
-router.post('/run', async (ctx) => {
-  const flow = ctx.scope.resolve('flow');
-  try {
-    const flowConfig = ctx.request.body;
-    await flow.run(flowConfig);
-    ctx.body = `Flow ok!\nFlow runned: \n${JSON.stringify(flowConfig, undefined, 2)}`;
-  } catch (e) {
-    ctx.body = `Error${e}`;
-  }
+const io = require('socket.io')();
+io.on('connection', function (client) {
+  console.log('worker connection');
+
+  client.scope = container.createScope();
+
+  client.on('run', async function (flowConfig, done) {
+    const flow = client.scope.resolve('flow');
+    try {
+      await flow.run(flowConfig);
+      done(`Flow ok!\nFlow runned: \n${JSON.stringify(flowConfig, undefined, 2)}`);
+    } catch (e) {
+      done(`Error${e}`);
+    }
+  });
+
+  client.on('disconnect', function () {
+    console.log('disconnected');
+  });
 });
-
-// Midlewares
-app.use(bodyParser());
-app.use((ctx, next) => {
-  ctx.scope = container.createScope();
-  return next();
-});
-app.use(router.routes());
-
-app.listen(4001);
+io.listen(4001);
 
 // eslint-disable-next-line no-console
 console.log('Worker server listening on port 4001');
