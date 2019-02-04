@@ -44,12 +44,13 @@ describe('Flow', () => {
   describe('#run()', () => {
     it('should run a flow', async () => {
       const flowConfig = {
-        startNode: {
-          name: 'first',
-          config: {},
-          nextNodes: 'second',
-        },
+        startNode: "first",
         nodes: {
+          first: {
+            name: 'first',
+            config: {},
+            nextNodes: 'second',
+          },
           second: {
             name: 'second',
             config: {},
@@ -66,12 +67,13 @@ describe('Flow', () => {
 
     it('should call runDefer after the flow', async () => {
       const flowConfig = {
-        startNode: {
-          name: 'first',
-          config: {},
-          nextNodes: 'second',
-        },
+        startNode: "first",
         nodes: {
+          first: {
+            name: 'first',
+            config: {},
+            nextNodes: 'second',
+          },
           second: {
             name: 'second',
             config: {},

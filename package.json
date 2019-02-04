@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "test-flow",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "socket.io": "^2.2.0",
-    "test-flow-examples": "0.0.3"
+    "test-flow-examples": "0.0.4"
   },
   "devDependencies": {
     "chai": "^4.2.0",
