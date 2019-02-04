@@ -9,18 +9,19 @@ function sendFlow(flow) {
   return new Promise((resolve, reject) => {
     const socket = io('http://localhost:4001');
 
-    socket.on('connect', function () {
+    socket.on('connect', () => {
+      // eslint-disable-next-line no-console
       console.log('main connect');
 
-      socket.emit('run', flow, function (status) {
+      socket.emit('run', flow, (status) => {
         resolve(status);
         socket.close();
       });
 
-      socket.on('connect_failed', function () {
-        reject('Could not connect to worker');
-      })
-    })
+      socket.on('connect_failed', () => {
+        reject(new Error('Could not connect to worker'));
+      });
+    });
   });
 }
 

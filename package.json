@@ -9,6 +9,7 @@
     "example-ws": "node node_modules/test-flow-examples/lib/servers/ws.js",
     "example-rest": "node node_modules/test-flow-examples/lib/servers/rest.js",
     "example": "npm-run-all --parallel start-main start-worker example-ws example-rest",
+    "lint": "eslint src",
     "test": "mocha"
   },
   "author": "Leandro Gaspar Scanavini",
@@ -19,6 +20,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "test-flow-examples": "0.0.4"
   },
   "devDependencies": {

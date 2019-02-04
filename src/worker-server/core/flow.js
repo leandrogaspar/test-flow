@@ -20,6 +20,7 @@ module.exports = class Flow extends EventEmitter {
         throw Error('Reached undefined node before flow end.');
       }
 
+      // eslint-disable-next-line no-await-in-loop
       const nodeOutput = await this.runNode(currentNode, input);
 
       if (nodeOutput.nextNode) {
@@ -59,12 +60,12 @@ module.exports = class Flow extends EventEmitter {
 
   /**
    * Emits a log event
-   * @param {any} data 
+   * @param {any} data
    */
   log(level, msg) {
     this.emit(Events.FLOW_LOG, {
       level,
-      msg
+      msg,
     });
   }
 };
