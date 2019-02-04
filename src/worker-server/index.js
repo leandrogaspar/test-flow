@@ -8,7 +8,7 @@ const path = require('path');
 const Context = require('./core/context');
 const NodeMap = require('./core/node-map');
 const Flow = require('./core/flow');
-const { Events } = require('./common/events');
+const { FlowEvents } = require('./common/events');
 
 // Create the DI container
 const container = createContainer({
@@ -32,9 +32,11 @@ io.on('connection', (client) => {
   client.on('run', async (flowConfig, done) => {
     const flow = scope.resolve('flow');
 
-    flow.on(Events.FLOW_LOG, (data) => {
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(data, undefined, 2));
+    Object.values(FlowEvents).forEach((event) => {
+      flow.on(event, (data) => {
+        // eslint-disable-next-line no-console
+        console.log(JSON.stringify(data));
+      });
     });
 
     try {
