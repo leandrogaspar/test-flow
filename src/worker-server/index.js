@@ -2,12 +2,13 @@
 const {
   createContainer, InjectionMode, asClass, asValue,
 } = require('awilix');
-
+const io = require('socket.io')();
 const path = require('path');
 
 const Context = require('./core/context');
 const NodeMap = require('./core/node-map');
 const Flow = require('./core/flow');
+const { Events } = require('./common/events');
 
 // Create the DI container
 const container = createContainer({
@@ -22,15 +23,20 @@ container.register({
   flow: asClass(Flow),
 });
 
-
-const io = require('socket.io')();
-io.on('connection', function (client) {
+io.on('connection', (client) => {
+  // eslint-disable-next-line no-console
   console.log('worker connection');
 
-  client.scope = container.createScope();
+  const scope = container.createScope();
 
-  client.on('run', async function (flowConfig, done) {
-    const flow = client.scope.resolve('flow');
+  client.on('run', async (flowConfig, done) => {
+    const flow = scope.resolve('flow');
+
+    flow.on(Events.FLOW_LOG, (data) => {
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(data, undefined, 2));
+    });
+
     try {
       await flow.run(flowConfig);
       done(`Flow ok!\nFlow runned: \n${JSON.stringify(flowConfig, undefined, 2)}`);
@@ -39,7 +45,8 @@ io.on('connection', function (client) {
     }
   });
 
-  client.on('disconnect', function () {
+  client.on('disconnect', () => {
+    // eslint-disable-next-line no-console
     console.log('disconnected');
   });
 });
