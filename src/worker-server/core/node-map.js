@@ -13,11 +13,11 @@ module.exports = class NodeMap {
   }
 
   /**
-     * Get a specified node function from it's name
-     *
-     * @param name The function name
-     * @returns The specified function
-     */
+   * Get a specified node function from it's name
+   *
+   * @param name The function name
+   * @returns The specified function
+   */
   getNode(name) {
     return this.nodeMap.get(name);
   }

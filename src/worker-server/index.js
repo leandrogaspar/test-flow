@@ -8,7 +8,7 @@ const path = require('path');
 const Context = require('./core/context');
 const NodeMap = require('./core/node-map');
 const Flow = require('./core/flow');
-const { FlowEvents } = require('./common/events');
+const { FlowEvents } = require('./core/events');
 
 // Create the DI container
 const container = createContainer({
