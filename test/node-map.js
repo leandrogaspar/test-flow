@@ -9,34 +9,66 @@ describe('NodeMap', () => {
   const FOLDER_PATH = `${__dirname}/tmp-node-map`;
   const FILE = 'tmp-node.js';
   const FULL_PATH = `${FOLDER_PATH}/${FILE}`;
-  const FILE_CONTENT = `
-        async function test(context, nodeConfig, input) {
-            console.log('hey');
-            return { nextNode: nodeConfig.nextNodes.default };
+
+  const fileContent = function fileContent(nodeName) {
+    return `
+      async function ${nodeName}(context, nodeConfig, input) {
+          console.log('hey');
+          return { nextNode: nodeConfig.nextNodes.default };
+      }
+      
+      module.exports = {
+          name: "${nodeName}",
+          node: ${nodeName}
+      };`;
+  }
+
+  beforeEach((done) => {
+    fs.mkdir(FOLDER_PATH, err => {
+      if (err) {
+        done(err);
+      }
+      fs.writeFile(FULL_PATH, fileContent('test'), err => {
+        if (err) {
+          done(err);
+          return;
         }
-        
-        module.exports = {
-            name: "test",
-            node: test
-        };
-    `;
-
-  before(() => {
-    fs.mkdirSync(FOLDER_PATH);
-    fs.writeFileSync(FULL_PATH, FILE_CONTENT);
+        nodeMap = new NodeMap(FOLDER_PATH);
+        done();
+      })
+    });
   });
 
-  after(() => {
-    fs.unlinkSync(FULL_PATH);
-    fs.rmdirSync(FOLDER_PATH);
-  });
-
-  beforeEach(() => {
-    nodeMap = new NodeMap(FOLDER_PATH);
+  afterEach((done) => {
+    fs.readdir(FOLDER_PATH, (err, files) => {
+      if (err) { return done(err); }
+      files.forEach(file => {
+        const fullPath = `${FOLDER_PATH}/${file}`;
+        fs.unlinkSync(fullPath);
+      });
+      fs.rmdir(FOLDER_PATH, err => done(err));
+    });
   });
 
   it('should instantiate a NodeMap', () => {
     expect(nodeMap).to.exist;
+  });
+
+  it('should fail if custom node matches default node name', (done) => {
+    const path = `${FOLDER_PATH}/delay.js`;
+    const content = fileContent('delay');
+    let success = false;
+    fs.writeFile(path, content, (err) => {
+      if (err) {
+        done(err);
+      }
+      try {
+        nodeMap = new NodeMap(FOLDER_PATH);
+        done(new Error('No error'));
+      } catch (e) {
+        done();
+      }
+    });
   });
 
   describe('#getNode()', () => {
