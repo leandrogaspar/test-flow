@@ -1,6 +1,6 @@
 async function delay(context, nodeConfig) {
-  const delay = nodeConfig.config.ms;
-  const timeout = new Promise(resolve => setTimeout(resolve, delay));
+  const { ms } = nodeConfig.config;
+  const timeout = new Promise(resolve => setTimeout(resolve, ms));
   await timeout;
   return { nextNode: nodeConfig.nextNodes };
 }
