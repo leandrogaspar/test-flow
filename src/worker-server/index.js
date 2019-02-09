@@ -37,7 +37,7 @@ io.on('connection', (client) => {
 
     try {
       await flow.run(flowConfig);
-      done(`Flow ok!\nFlow runned: \n${JSON.stringify(flowConfig, undefined, 2)}`);
+      done('Flow ok!');
     } catch (e) {
       done(`Error${e}`);
     }

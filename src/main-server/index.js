@@ -9,10 +9,10 @@ function sendFlow(flow) {
   return new Promise((resolve, reject) => {
     const socket = io('http://localhost:4001');
 
+    const events = [];
     socket.on('connect', () => {
       socket.on('message', (data) => {
-        // eslint-disable-next-line no-console
-        console.log(`main server rcvd ${JSON.stringify(data)}`);
+        events.push(data);
       });
 
       socket.on('connect_failed', () => {
@@ -20,11 +20,36 @@ function sendFlow(flow) {
       });
 
       socket.emit('run', flow, (status) => {
-        resolve(status);
+        // eslint-disable-next-line no-console
+        console.log(status);
+        resolve(events);
         socket.close();
       });
     });
   });
+}
+
+function tempTemplate(flow, events) {
+  let eventsTable = '';
+  events.forEach((event) => {
+    eventsTable += `<tr><td>${JSON.stringify(event)}</td></tr>`;
+  });
+  return `
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>${flow.name}</title>
+    </head>
+    <body>
+      <pre>${JSON.stringify(flow, null, 2)}</pre>
+      <table>
+        <thead><tr><td>Events</td></tr></thead>
+        <tbody>${eventsTable}</tbody>
+      </table>
+    </body>
+  </html>
+  `;
 }
 
 const app = new Koa();
@@ -32,8 +57,8 @@ const router = new KoaRouter();
 
 router.get('/ws', async (ctx) => {
   try {
-    const res = await sendFlow(ws);
-    ctx.body = res;
+    const events = await sendFlow(ws);
+    ctx.body = tempTemplate(ws, events);
   } catch (e) {
     ctx.body = `Error${e}`;
   }
@@ -41,8 +66,8 @@ router.get('/ws', async (ctx) => {
 
 router.get('/selenium', async (ctx) => {
   try {
-    const res = await sendFlow(selenium);
-    ctx.body = res;
+    const events = await sendFlow(selenium);
+    ctx.body = tempTemplate(selenium, events);
   } catch (e) {
     ctx.body = `Error${e}`;
   }
@@ -50,8 +75,8 @@ router.get('/selenium', async (ctx) => {
 
 router.get('/rest', async (ctx) => {
   try {
-    const res = await sendFlow(rest);
-    ctx.body = res;
+    const events = await sendFlow(rest);
+    ctx.body = tempTemplate(rest, events);
   } catch (e) {
     ctx.body = `Error${e}`;
   }
