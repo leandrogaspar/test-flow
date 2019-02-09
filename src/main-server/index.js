@@ -10,34 +10,29 @@ function sendFlow(flow) {
     const socket = io('http://localhost:4001');
 
     socket.on('connect', () => {
-      // eslint-disable-next-line no-console
-      console.log('main connect');
-
-      socket.emit('run', flow, (status) => {
-        resolve(status);
-        socket.close();
+      socket.on('message', (data) => {
+        // eslint-disable-next-line no-console
+        console.log(`main server rcvd ${JSON.stringify(data)}`);
       });
 
       socket.on('connect_failed', () => {
         reject(new Error('Could not connect to worker'));
       });
+
+      socket.emit('run', flow, (status) => {
+        resolve(status);
+        socket.close();
+      });
     });
   });
 }
-
-// temp stuff
-const flows = {
-  ws,
-  selenium,
-  rest,
-};
 
 const app = new Koa();
 const router = new KoaRouter();
 
 router.get('/ws', async (ctx) => {
   try {
-    const res = await sendFlow(flows.ws);
+    const res = await sendFlow(ws);
     ctx.body = res;
   } catch (e) {
     ctx.body = `Error${e}`;
@@ -46,7 +41,7 @@ router.get('/ws', async (ctx) => {
 
 router.get('/selenium', async (ctx) => {
   try {
-    const res = await sendFlow(flows.selenium);
+    const res = await sendFlow(selenium);
     ctx.body = res;
   } catch (e) {
     ctx.body = `Error${e}`;
@@ -55,7 +50,7 @@ router.get('/selenium', async (ctx) => {
 
 router.get('/rest', async (ctx) => {
   try {
-    const res = await sendFlow(flows.rest);
+    const res = await sendFlow(rest);
     ctx.body = res;
   } catch (e) {
     ctx.body = `Error${e}`;

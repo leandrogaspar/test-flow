@@ -24,9 +24,6 @@ container.register({
 });
 
 io.on('connection', (client) => {
-  // eslint-disable-next-line no-console
-  console.log('worker connection');
-
   const scope = container.createScope();
 
   client.on('run', async (flowConfig, done) => {
@@ -34,8 +31,7 @@ io.on('connection', (client) => {
 
     Object.values(FlowEvents).forEach((event) => {
       flow.on(event, (data) => {
-        // eslint-disable-next-line no-console
-        console.log(JSON.stringify(data));
+        client.send(data);
       });
     });
 
@@ -45,11 +41,6 @@ io.on('connection', (client) => {
     } catch (e) {
       done(`Error${e}`);
     }
-  });
-
-  client.on('disconnect', () => {
-    // eslint-disable-next-line no-console
-    console.log('disconnected');
   });
 });
 io.listen(4001);
