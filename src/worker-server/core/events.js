@@ -16,10 +16,14 @@ const FlowEvents = {
  * @returns {object} the event object
  */
 const baseEvent = function baseEvent(type, data) {
+  const hrtime = process.hrtime();
   return {
     type,
     time: new Date().toUTCString(),
-    hrtime: process.hrtime(),
+    time: {
+      seconds: hrtime[0],
+      nanoseconds: hrtime[1]
+    },
     ...data,
   };
 };
