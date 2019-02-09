@@ -5,7 +5,7 @@ const { FlowEvents } = require('../src/worker-server/core/events');
 
 class MockNodeMap {
   constructor() {
-    this.nodeFn = null;
+    this.nodeFn = () => { return { nextNode: null } };
   }
 
   getNode(node) {
@@ -96,8 +96,9 @@ describe('Flow', () => {
     });
 
     it('should emit error event on failures', (done) => {
+      nodeMap.nodeFn = () => { throw new Error('flow error') };
       flow.on(FlowEvents.ERROR, () => done());
-      flow.run(flowConfig).catch();
+      flow.run(flowConfig).catch(e => null);
     });
   });
 
