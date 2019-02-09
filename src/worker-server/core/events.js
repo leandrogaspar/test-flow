@@ -10,6 +10,20 @@ const FlowEvents = {
 };
 
 /**
+ * @typedef {object} Time
+ * @param {number} seconds - seconds relative to an arbitrary time
+ * @param {number} nanoseconds - nanoseconds relative to an arbitrary time
+ */
+
+/**
+ * @typedef {object} Event
+ * @property {string} type - event type
+ * @property {string} date - date converted to a string using Universal Coordinated Time (UTC)
+ * @property {Time} time - event high resolution time
+ * @property {any} [data] - other event data
+ */
+
+/**
  * Base event generator.
  * @param {string} type - the event type
  * @param {object} [data] - the event data
@@ -19,10 +33,10 @@ const baseEvent = function baseEvent(type, data) {
   const hrtime = process.hrtime();
   return {
     type,
-    time: new Date().toUTCString(),
+    date: new Date().toUTCString(),
     time: {
       seconds: hrtime[0],
-      nanoseconds: hrtime[1]
+      nanoseconds: hrtime[1],
     },
     ...data,
   };
